@@ -16,9 +16,14 @@ const ArghApp = (props) =>{
         nlForm.createNewArticle();
     }
 
+    function initBlah(evt){
+        nlForm.initBlah()
+    }
+
     return (
     <div>
         <button onClick={datThing}>Add an article</button>
+        <button onClick={initBlah}>Init Blah with Empty Array</button>
 
         <DevTools />
         <MobxReactFormDevTools.UI />

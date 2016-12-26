@@ -236,6 +236,10 @@ webpackJsonp([0],[
 	        nlForm.createNewArticle();
 	    }
 
+	    function initBlah(evt) {
+	        nlForm.initBlah();
+	    }
+
 	    return _react2.default.createElement(
 	        'div',
 	        null,
@@ -243,6 +247,11 @@ webpackJsonp([0],[
 	            'button',
 	            { onClick: datThing },
 	            'Add an article'
+	        ),
+	        _react2.default.createElement(
+	            'button',
+	            { onClick: initBlah },
+	            'Init Blah with Empty Array'
 	        ),
 	        _react2.default.createElement(_mobxReactDevtools2.default, null),
 	        _react2.default.createElement(_mobxReactFormDevtools2.default.UI, null)
@@ -4149,7 +4158,7 @@ webpackJsonp([0],[
 
 	var plugins = { dvr: _validatorjs2.default };
 
-	var fields = ['id', 'title', 'layout.column1', 'layout.column1[].id', 'layout.column1[].title', 'layout.column1[].img_url', 'layout.column2', 'layout.column2[].id', 'layout.column2[].title', 'layout.column2[].img_url'];
+	var fields = ['id', 'title', 'blah.abe', 'blah.abe[]', 'layout.column1', 'layout.column1[].id', 'layout.column1[].title', 'layout.column1[].img_url', 'layout.column2', 'layout.column2[].id', 'layout.column2[].title', 'layout.column2[].img_url'];
 
 	var rules = {
 	  'title': 'string|required|between:1,255',
@@ -4163,53 +4172,9 @@ webpackJsonp([0],[
 	  _inherits(ArghForm, _MobxReactForm);
 
 	  function ArghForm() {
-	    var _ref;
-
-	    var _temp, _this, _ret;
-
 	    _classCallCheck(this, ArghForm);
 
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ArghForm.__proto__ || Object.getPrototypeOf(ArghForm)).call.apply(_ref, [this].concat(args))), _this), _this.createNewArticle = function () {
-	      var layoutKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'column1';
-	      var idx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-	      var newArticle = {
-	        id: null,
-	        owner: null,
-	        title: 'Your Article Title goes here',
-	        message: '',
-	        img_url: 'not a url',
-	        attachments: [],
-	        newsletter: null,
-	        message_is_html: true
-	      };
-
-	      var layout = _this.get_layout_values();
-	      console.log('layout vals', layout);
-
-	      layout[layoutKey].splice(idx, 0, newArticle);
-
-	      console.log('this is layout', layout);
-	      console.log('Current Rules before update', _this.state.current.props.rules);
-	      _this.$('layout').update(layout);
-	      console.log('Current Rules', _this.state.current.props.rules);
-	      console.log('col1-0 img_url', _this.$('layout.column1[0].img_url').value);
-	      console.log('col1-0 img_url errors', _this.$('layout.column1[0].img_url').errors());
-
-	      _this.validate().then(function (isValid) {
-	        console.log('errors', isValid, _this.errors());
-	        console.log('col1-0 img_url isValid?', _this.$('layout.column1[0].img_url').check('isValid'));
-	      });
-
-	      return {
-	        layoutKey: layoutKey,
-	        idx: idx
-	      };
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	    return _possibleConstructorReturn(this, (ArghForm.__proto__ || Object.getPrototypeOf(ArghForm)).apply(this, arguments));
 	  }
 
 	  _createClass(ArghForm, [{
@@ -4217,8 +4182,7 @@ webpackJsonp([0],[
 	    value: function onInit(form) {
 	      // https://github.com/foxhound87/mobx-react-form/issues/178
 	      //form.$('layout.column1').del(0);
-	      form.$('layout.column2').del(0);
-	      console.log('Initial Rules', form.state.initial.props.rules);
+	      //form.$('layout.column2').del(0);
 	    }
 	  }, {
 	    key: 'onSuccess',
@@ -4234,6 +4198,54 @@ webpackJsonp([0],[
 	      console.log('All form errors', form.errors());
 	      // invalidate the form with a custom error message
 	      form.invalidate('This is a generic error message!');
+	    }
+	  }, {
+	    key: 'initBlah',
+	    value: function initBlah() {
+	      this.$('blah').init({
+	        abe: []
+	      });
+	    }
+	  }, {
+	    key: 'createNewArticle',
+	    value: function createNewArticle() {
+	      var _this2 = this;
+
+	      var layoutKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'column1';
+	      var idx = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+	      var newArticle = {
+	        id: null,
+	        owner: null,
+	        title: 'Your Article Title goes here',
+	        message: '',
+	        img_url: 'not a url',
+	        attachments: [],
+	        newsletter: null,
+	        message_is_html: true
+	      };
+
+	      var layout = this.get_layout_values();
+	      console.log('layout vals', layout);
+
+	      layout[layoutKey].splice(idx, 0, newArticle);
+
+	      console.log('this is layout', layout);
+	      console.log('Current Rules before update', this.state.current.props.rules);
+	      this.$('layout').update(layout);
+	      console.log('Current Rules', this.state.current.props.rules);
+	      console.log('col1-0 img_url', this.$('layout.column1[0].img_url').value);
+	      console.log('col1-0 img_url errors', this.$('layout.column1[0].img_url').errors());
+
+	      this.validate().then(function (isValid) {
+	        console.log('errors', isValid, _this2.errors());
+	        console.log('col1-0 img_url isValid?', _this2.$('layout.column1[0].img_url').check('isValid'));
+	      });
+
+	      return {
+	        layoutKey: layoutKey,
+	        idx: idx
+	      };
 	    }
 	  }, {
 	    key: 'insertArticle',
@@ -17220,8 +17232,10 @@ webpackJsonp([0],[
 	      }
 
 	      if (!(0, _isNil3.default)($container)) {
+	        // get real path when using update() with select() - FIX: #179
+	        var $realPath = (0, _trimStart3.default)([_this3.path, $fullPath].join('.'), '.');
 	        // init field into the container field
-	        $container.initField(key, $fullPath, field, null, true);
+	        $container.initField(key, $realPath, field, null, true);
 	      }
 
 	      if (recursion) {

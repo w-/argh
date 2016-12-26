@@ -8,6 +8,8 @@ const plugins = { dvr: validatorjs };
 const fields = [
   'id',
   'title',
+  'blah.abe',
+  'blah.abe[]',
   'layout.column1',
   'layout.column1[].id',
   'layout.column1[].title',
@@ -32,9 +34,9 @@ class ArghForm extends MobxReactForm {
   onInit(form){
     // https://github.com/foxhound87/mobx-react-form/issues/178
     //form.$('layout.column1').del(0);
-    form.$('layout.column2').del(0);
-    console.log('Initial Rules', form.state.initial.props.rules);
+    //form.$('layout.column2').del(0);
   }
+
 
   onSuccess(form) {
     alert('Form is valid! Send the request here.');
@@ -49,7 +51,13 @@ class ArghForm extends MobxReactForm {
     form.invalidate('This is a generic error message!');
   }
 
-  createNewArticle = (layoutKey='column1', idx=0) => {
+  initBlah() {
+    this.$('blah').init({
+      abe: [],
+    })
+  }
+
+  createNewArticle (layoutKey='column1', idx=0) {
       let newArticle = {
           id: null,
           owner: null,
